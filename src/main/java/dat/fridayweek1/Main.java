@@ -65,4 +65,36 @@ public class Main {
         }
         return user;
     }
+
+    public static String editDetails(String info, String update, int id) throws ClassNotFoundException, SQLException {
+
+        String updatedInfo = "";
+        try (Connection con = Connector.connection()) {
+            String sql = "UPDATE usertable SET ? = ? WHERE id = ?;";
+
+            try {
+                PreparedStatement ps = con.prepareStatement(sql);
+                ps.setString(1, info);
+                ps.setString(2, update);
+                ps.setInt(3, id);
+                ps.executeUpdate();
+            } catch (SQLException ex) {
+
+            }
+            try {
+                String sql2 = "SELECT ? FROM usertable WHERE id = ?;";
+                PreparedStatement ps = con.prepareStatement(sql2);
+                ps.setString(1, info);
+                ps.setInt(2, id);
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    updatedInfo = rs.getString(info);
+                }
+
+            } catch (SQLException e) {
+            }
+        }
+        return updatedInfo;
+    }
 }
