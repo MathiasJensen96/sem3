@@ -50,5 +50,15 @@ public class MainTest {
         ArrayList<String> actual = Main.getAllUserNames();
         assertEquals(expected, actual);
     }
+    
+    @Test
+    public void userDetailsTest() throws ClassNotFoundException{
+        
+        User user = new User(1, "Henning", "Dahl", "sdfw333", "+4540949403", "Rolighedsvej 22, 2100 Kbh Ø");
+        
+        String expected = Integer.toString(user.getId()) + " " + user.getFname() + " " + user.getLname() + " " + user.getPw() + " " + user.getPhone() + " " + user.getAddress();
+        String actual = Main.userDetails(1).toString();
+        assertEquals(expected, actual);
+    }
 
 }

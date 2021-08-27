@@ -31,7 +31,6 @@ public class Main {
             String sql = "SELECT fname FROM usertable;";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            
 
             while (rs.next()) {
                 String name = rs.getString("fname");
@@ -43,5 +42,27 @@ public class Main {
             e.printStackTrace();
         }
         return users;
+    }
+
+    public static User userDetails(int id) throws ClassNotFoundException {
+
+        User user = null;
+        try {
+            Connection con = Connector.connection();
+
+            String sql = "SELECT * FROM usertable WHERE id = ?;";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                user = new User(rs.getInt("id"), rs.getString("fname"), rs.getString("lname"), rs.getString("pw"), rs.getString("phone"), rs.getString("address"));
+
+            }
+
+        } catch (SQLException e) {
+
+        }
+        return user;
     }
 }
